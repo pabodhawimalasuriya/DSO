@@ -59,3 +59,42 @@ check_OTP should return after 1min if the user does not give a valid OTP.
     }
 }
 ```
+
+---
+
+### <ins>Documentation</ins>
+
+Tools Used : VS Code
+Language Used : C#
+Technologies Used : .NET Core 7
+Libraries Used : MojoAuth.NET (https://www.nuget.org/packages/MojoAuth.NET) - This library allows us to generate an OTP and send to a given Email and also doing the OTP validation. This handles the OTP expiry after the first usage and also the OTP is 6 digits long. All these were handled from the library itself and we didn't want to validate these.
+Swagger Doc  : http://localhost:5000/swagger/index.html
+<img width="946" alt="image" src="https://user-images.githubusercontent.com/129241707/228788910-42558644-d8b8-4100-a45b-a20edf593003.png">
+
+<img width="943" alt="image" src="https://user-images.githubusercontent.com/129241707/228789084-a2fcb0b4-4ac1-4b15-bcc2-4a29e59bcf00.png">
+
+<img width="937" alt="image" src="https://user-images.githubusercontent.com/129241707/228789220-43569b8f-2da1-4dd5-98f1-7ca70a9583dc.png">
+
+<ins>Scenarios Covered</ins> 
+* A 6 digits long OTP is sent to the entered Email address. 
+* Only the emails which has the ```.dso.org.sg``` domain are allowed to be send the OTP. (Please note : For the recording purpose, I have commented that logic to capture the screen shots.)
+* <img width="921" alt="image" src="https://user-images.githubusercontent.com/129241707/228792182-ef1931c5-98e8-44b0-ad11-945704c8f304.png">
+    * The sending the email part is fully covered by the 3rd party library. 
+    * And the Email body is also handled by it and due to that, the Email content is not changed as requested in the test.
+    * Once the OTP generation and Email sending is done, based on the received response from the 3rd party library, response is returned from the API (StateId).
+    * <img width="936" alt="image" src="https://user-images.githubusercontent.com/129241707/228790361-6562b2ee-5c18-4d37-b19d-0b0dcf25b30f.png">
+    * <img width="709" alt="image" src="https://user-images.githubusercontent.com/129241707/228790626-23307718-6b67-439f-ba71-8bfe75129221.png">
+
+* Once received the both StateId and the OTP, we can use them to validate the OTP.
+    * <img width="916" alt="image" src="https://user-images.githubusercontent.com/129241707/228791108-c469e1f6-0577-4552-83d2-0b5631d13e1d.png">
+* Until 10 Re-Try attempts, the same response will be returned.
+* After the 10th attempt, the error message will be shown.
+    * <img width="919" alt="image" src="https://user-images.githubusercontent.com/129241707/228791634-ef91091c-3cc3-4bb6-9100-afa50afdff05.png">
+* The 1 min validity period validation is already handled from the 3rd party library's side.
+
+---
+
+### Please go through the code and the added comments for better understanding. 
+Please note - I had to use VS Code as I couldn't get the Visual Studio installed on my machine due to a technical issue. So the project/folder structure is not correctly formatted according to a .NET Core project. 
+
+
