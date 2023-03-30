@@ -1,3 +1,6 @@
+// Auth - Capgemini
+// pabodha.wimalasuriya@capgemini.com
+
 using System.ComponentModel.DataAnnotations;
 
 // VerifyEmailOTPModel - The model used to get the Body from the Request.

@@ -1,3 +1,6 @@
+// Auth - Capgemini
+// pabodha.wimalasuriya@capgemini.com
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
