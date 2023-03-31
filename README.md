@@ -64,11 +64,11 @@ check_OTP should return after 1min if the user does not give a valid OTP.
 
 ### <ins>Documentation</ins>
 
-Tools Used : VS Code
-Language Used : C#
-Technologies Used : .NET Core 7
-Libraries Used : MojoAuth.NET (https://www.nuget.org/packages/MojoAuth.NET) - This library allows us to generate an OTP and send to a given Email and also doing the OTP validation. This handles the OTP expiry after the first usage and also the OTP is 6 digits long. All these were handled from the library itself and we didn't want to validate these.
-Swagger Doc  : http://localhost:5000/swagger/index.html
+* Tools Used : VS Code <br/>
+* Language Used : C# <br/>
+* Technologies Used : .NET Core 7 <br/>
+* Libraries Used : MojoAuth.NET (https://www.nuget.org/packages/MojoAuth.NET) - This library allows us to generate an OTP and send to a given Email and also doing the OTP validation. This handles the OTP expiry after the first usage and also the OTP is 6 digits long. All these were handled from the library itself and we didn't want to validate these. <br/>
+* Swagger Doc  : http://localhost:5000/swagger/index.html <br/>
 <img width="946" alt="image" src="https://user-images.githubusercontent.com/129241707/228788910-42558644-d8b8-4100-a45b-a20edf593003.png">
 
 <img width="943" alt="image" src="https://user-images.githubusercontent.com/129241707/228789084-a2fcb0b4-4ac1-4b15-bcc2-4a29e59bcf00.png">
@@ -91,6 +91,113 @@ Swagger Doc  : http://localhost:5000/swagger/index.html
 * After the 10th attempt, the error message will be shown.
     * <img width="919" alt="image" src="https://user-images.githubusercontent.com/129241707/228791634-ef91091c-3cc3-4bb6-9100-afa50afdff05.png">
 * The 1 min validity period validation is already handled from the 3rd party library's side.
+
+---
+
+### <ins>Testing Methods</ins>
+
+* Run the project and navigate to the swagger page : http://localhost:5000/swagger/index.html
+
+### 1. Generate OTP and Send Email
+* Request CURL : Provide the Email. The Email should be a `.dso.org.sg` domain email. For the recording purpose, commented it.
+```
+curl -X 'POST' \
+  'http://localhost:5000/api/EmailOTP/GenerateOTPEmail' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "pabodha.capgemini@gmail.com"
+}'
+```
+* Response : Returns the StateId
+```
+Status Code 200 -
+64264c6b8ee248d9d20740f4
+```
+
+ ### 1.1 Invalid Email 
+ * Request CURL : Provide an invalid Email
+```
+curl -X 'POST' \
+  'http://localhost:5000/api/EmailOTP/GenerateOTPEmail' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "pabodha.capgemini"
+}'
+```
+* Response : Error returned.
+```
+Error: Bad Request - 
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  "title": "One or more validation errors occurred.",
+  "status": 400,
+  "traceId": "00-f983a3dac00091a8809ba071f4d806e1-88645728dcee79bd-00",
+  "errors": {
+    "Email": [
+      "Invalid Request - Please provide valid Email address."
+    ]
+  }
+}
+```
+ ### 1.2 Invalid Email Domain
+ * Request CURL : Provide an invalid Email which is not in the DSO domain
+```
+curl -X 'POST' \
+  'http://localhost:5000/api/EmailOTP/GenerateOTPEmail' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "pabodha.capgemini@gmail.com"
+}'
+```
+* Response : Error returned.
+```
+Error: Bad Request - 
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  "title": "One or more validation errors occurred.",
+  "status": 400,
+  "traceId": "00-102de92e222e7cd3f844a0060d83fafe-e3df0928ef32baab-00",
+  "errors": {
+    "Email": [
+      "Invalid Request - Please provide valid Email address which is on the DSO domain."
+    ]
+  }
+}
+```
+
+### 2. Validate the OTP
+* Request CURL : Provide the StateId and the OTP.
+```
+curl -X 'POST' \
+  'http://localhost:5000/api/EmailOTP/CheckOTP' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "stateId": "64264c6b8ee248d9d20740f4",
+  "otp": "939870"
+}'
+```
+* Response : OTP validated and returning the User data. This is allowed to re-try for another 9 attempts.
+```
+Status Code 200 - 
+{
+  "created_at": "2023-03-31T03:00:47Z",
+  "updated_at": "2023-03-31T03:00:47Z",
+  "issuer": "https://www.mojoauth.com",
+  "user_id": "64251092841595864e939ba4",
+  "identifier": "pabodha.capgemini@gmail.com"
+}
+```
+* Response : After 10 attempts.
+```
+Error: Bad Request - OTP is wrong after 10 tries
+```
+
+### Apart from these, we have added couple of Unit Tests to the project to cover the high level scenarios.
+<img width="960" alt="image" src="https://user-images.githubusercontent.com/129241707/229012474-98d4769e-6c29-41f9-bb6b-d0bfa9d71b28.png">
 
 ---
 
