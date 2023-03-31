@@ -77,19 +77,22 @@ check_OTP should return after 1min if the user does not give a valid OTP.
 
 <ins>Scenarios Covered</ins> 
 * A 6 digits long OTP is sent to the entered Email address. 
-* Only the emails which has the ```.dso.org.sg``` domain are allowed to be send the OTP. (Please note : For the recording purpose, I have commented that logic to capture the screen shots.)
-* <img width="921" alt="image" src="https://user-images.githubusercontent.com/129241707/228792182-ef1931c5-98e8-44b0-ad11-945704c8f304.png">
-    * The sending the email part is fully covered by the 3rd party library. 
-    * And the Email body is also handled by it and due to that, the Email content is not changed as requested in the test.
-    * Once the OTP generation and Email sending is done, based on the received response from the 3rd party library, response is returned from the API (StateId).
-    * <img width="936" alt="image" src="https://user-images.githubusercontent.com/129241707/228790361-6562b2ee-5c18-4d37-b19d-0b0dcf25b30f.png">
-    * <img width="709" alt="image" src="https://user-images.githubusercontent.com/129241707/228790626-23307718-6b67-439f-ba71-8bfe75129221.png">
+* Only the emails which has the ```.dso.org.sg``` domain are allowed to be send the OTP. (Please note : For the recording purpose, I have commented that logic to capture the screen shots.).
+<img width="921" alt="image" src="https://user-images.githubusercontent.com/129241707/228792182-ef1931c5-98e8-44b0-ad11-945704c8f304.png">
+* The sending the email part is fully covered by the 3rd party library. <br/>
+* And the Email body is also handled by it and due to that, the Email content is not changed as requested in the test. <br/>
+* Once the OTP generation and Email sending is done, based on the received response from the 3rd party library, response is returned from the API (StateId). <br/>
+
+<img width="936" alt="image" src="https://user-images.githubusercontent.com/129241707/228790361-6562b2ee-5c18-4d37-b19d-0b0dcf25b30f.png">
+<img width="709" alt="image" src="https://user-images.githubusercontent.com/129241707/228790626-23307718-6b67-439f-ba71-8bfe75129221.png">
 
 * Once received the both StateId and the OTP, we can use them to validate the OTP.
     * <img width="916" alt="image" src="https://user-images.githubusercontent.com/129241707/228791108-c469e1f6-0577-4552-83d2-0b5631d13e1d.png">
+    
 * Until 10 Re-Try attempts, the same response will be returned.
 * After the 10th attempt, the error message will be shown.
     * <img width="919" alt="image" src="https://user-images.githubusercontent.com/129241707/228791634-ef91091c-3cc3-4bb6-9100-afa50afdff05.png">
+    
 * The 1 min validity period validation is already handled from the 3rd party library's side.
 
 ---
