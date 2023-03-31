@@ -94,6 +94,60 @@ Swagger Doc  : http://localhost:5000/swagger/index.html
 
 ---
 
+### <ins>Testing Methods</ins>
+
+* Run the project and navigate to the swagger page : http://localhost:5000/swagger/index.html
+
+### 1. Generate OTP and Send Email
+* Request CURL : Provide the Email. The Email should be a `.dso.org.sg` domain email. For the recording purpose, commented it.
+```
+curl -X 'POST' \
+  'http://localhost:5000/api/EmailOTP/GenerateOTPEmail' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "pabodha.capgemini@gmail.com"
+}'
+```
+* Response : Returns the StateId
+```
+Status Code 200 -
+64264c6b8ee248d9d20740f4
+```
+
+### 2. Validate the OTP
+* Request CURL : 
+```
+curl -X 'POST' \
+  'http://localhost:5000/api/EmailOTP/CheckOTP' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "stateId": "64264c6b8ee248d9d20740f4",
+  "otp": "939870"
+}'
+```
+* Response : OTP validated and returning the User data. This is allowed to re-try for another 9 attempts.
+```
+Status Code 200 - 
+{
+  "created_at": "2023-03-31T03:00:47Z",
+  "updated_at": "2023-03-31T03:00:47Z",
+  "issuer": "https://www.mojoauth.com",
+  "user_id": "64251092841595864e939ba4",
+  "identifier": "pabodha.capgemini@gmail.com"
+}
+```
+* Response : After 10 attempts.
+```
+Error: Bad Request - OTP is wrong after 10 tries
+```
+
+### Apart from these, we have added couple of Unit Tests to the project to cover the high level scenarios.
+<img width="960" alt="image" src="https://user-images.githubusercontent.com/129241707/229012474-98d4769e-6c29-41f9-bb6b-d0bfa9d71b28.png">
+
+---
+
 ### Please go through the code and the added comments for better understanding. 
 Please note - I had to use VS Code as I couldn't get the Visual Studio installed on my machine due to a technical issue. So the project/folder structure is not correctly formatted according to a .NET Core project. 
 
