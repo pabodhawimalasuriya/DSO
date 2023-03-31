@@ -115,8 +115,61 @@ Status Code 200 -
 64264c6b8ee248d9d20740f4
 ```
 
+ ### 1.1 Invalid Email 
+ * Request CURL : Provide an invalid Email
+```
+curl -X 'POST' \
+  'http://localhost:5000/api/EmailOTP/GenerateOTPEmail' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "pabodha.capgemini"
+}'
+```
+* Response : Error returned.
+```
+Error: Bad Request - 
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  "title": "One or more validation errors occurred.",
+  "status": 400,
+  "traceId": "00-f983a3dac00091a8809ba071f4d806e1-88645728dcee79bd-00",
+  "errors": {
+    "Email": [
+      "Invalid Request - Please provide valid Email address."
+    ]
+  }
+}
+```
+ ### 1.2 Invalid Email Domain
+ * Request CURL : Provide an invalid Email which is not in the DSO domain
+```
+curl -X 'POST' \
+  'http://localhost:5000/api/EmailOTP/GenerateOTPEmail' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "pabodha.capgemini@gmail.com"
+}'
+```
+* Response : Error returned.
+```
+Error: Bad Request - 
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  "title": "One or more validation errors occurred.",
+  "status": 400,
+  "traceId": "00-102de92e222e7cd3f844a0060d83fafe-e3df0928ef32baab-00",
+  "errors": {
+    "Email": [
+      "Invalid Request - Please provide valid Email address which is on the DSO domain."
+    ]
+  }
+}
+```
+
 ### 2. Validate the OTP
-* Request CURL : 
+* Request CURL : Provide the StateId and the OTP.
 ```
 curl -X 'POST' \
   'http://localhost:5000/api/EmailOTP/CheckOTP' \
