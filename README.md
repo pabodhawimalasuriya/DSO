@@ -64,11 +64,11 @@ check_OTP should return after 1min if the user does not give a valid OTP.
 
 ### <ins>Documentation</ins>
 
-Tools Used : VS Code
-Language Used : C#
-Technologies Used : .NET Core 7
-Libraries Used : MojoAuth.NET (https://www.nuget.org/packages/MojoAuth.NET) - This library allows us to generate an OTP and send to a given Email and also doing the OTP validation. This handles the OTP expiry after the first usage and also the OTP is 6 digits long. All these were handled from the library itself and we didn't want to validate these.
-Swagger Doc  : http://localhost:5000/swagger/index.html
+* Tools Used : VS Code <br/>
+* Language Used : C# <br/>
+* Technologies Used : .NET Core 7 <br/>
+* Libraries Used : MojoAuth.NET (https://www.nuget.org/packages/MojoAuth.NET) - This library allows us to generate an OTP and send to a given Email and also doing the OTP validation. This handles the OTP expiry after the first usage and also the OTP is 6 digits long. All these were handled from the library itself and we didn't want to validate these. <br/>
+* Swagger Doc  : http://localhost:5000/swagger/index.html <br/>
 <img width="946" alt="image" src="https://user-images.githubusercontent.com/129241707/228788910-42558644-d8b8-4100-a45b-a20edf593003.png">
 
 <img width="943" alt="image" src="https://user-images.githubusercontent.com/129241707/228789084-a2fcb0b4-4ac1-4b15-bcc2-4a29e59bcf00.png">
