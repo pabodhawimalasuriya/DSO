@@ -1,6 +1,9 @@
 // Auth - Capgemini
 // pabodha.wimalasuriya@capgemini.com
 
+using DSO.Services.Contract;
+using DSO.Services.Implementation;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,6 +15,9 @@ builder.Services.AddSwaggerGen();
 
 // Add Memory Caching
 builder.Services.AddMemoryCache();
+
+// Register Services
+builder.Services.AddScoped<IEmailOtpService, EmailOtpService>();
 
 var app = builder.Build();
 
